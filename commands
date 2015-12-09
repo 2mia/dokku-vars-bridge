@@ -1,11 +1,18 @@
 #/bin/bash
+source "$PLUGIN_CORE_AVAILABLE_PATH/common/functions"
+source "$PLUGIN_AVAILABLE_PATH/config/functions"
+
 case "$1" in
 	git-build-locked)
 		APP="$2"
 		REF="$3"
 	 	branch=`cat HEAD | cut -d '/' -f3`
 		commit=`cat refs/heads/$branch | cut -d '/' -f3`
-		dokku config:set-norestart $APP _GIT_BRANCH=$branch _GIT_COMMIT=$commit
+		config_set --no-restart $APP _GIT_BRANCH=$branch _GIT_COMMIT=$commit 
 		
 		;;
+	*)
+		exit $DOKKU_NOT_IMPLEMENTED_EXIT
+    	;;
 esac 
+
